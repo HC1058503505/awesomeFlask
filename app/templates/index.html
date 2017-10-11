@@ -4,7 +4,8 @@
 	<title>Flask Todo</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="./static/index.css">
-	<link rel="stylesheet" type="text/css" href="./static/bootstrap.css">
+	<!-- <link rel="stylesheet" type="text/css" href="./static/bootstrap.css"> -->
+	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">  
 </head>
 <body>
 	<form class="input-group" action="add" method="post">
@@ -14,7 +15,7 @@
 		</span>
 	</form>
 
-	<table class="table">
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<td>Content</td>
@@ -28,7 +29,14 @@
 			<tr>
 				<td>{{ t.content }}</td>
 				<td>{{ t.time }}</td>
-				<td>{{ t.status }}</td>
+				<td>
+					{% if t.status == 0 %}
+         				<a href="/done/{{ t.id }}" class="btn btn-primary">Done</a>
+        			{% else %}
+         				<a href="/undone/{{ t.id }}" class="btn btn-primary">Undone</a>
+        			{% endif %}
+        			<a href="/delete/{{ t.id }}" class="btn btn-danger">Delete</a>
+        		</td>
 			</tr>
 			{% endfor %}
 		</tbody>
