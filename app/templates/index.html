@@ -8,12 +8,17 @@
 	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">  
 </head>
 <body>
-	<form class="input-group" action="add" method="post">
-		<input type="text" name="content" class="form-control" id="content" value="">
+	<form class="input-group" action="/add" method="post">
+		{{ forms.hidden_tag() }}
+		{{ forms.content(class="form-control") }}
 		<span class="input-group-btn">
 			<button class="btn btn-primary" type="submit">Add</button>
 		</span>
 	</form>
+
+	{% for error in forms.errors.content %}
+		<div class="flash alert-danger"><span>{{ error }}</span></div>
+	{% endfor %}
 
 	<table class="table table-striped">
 		<thead>

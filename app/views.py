@@ -1,23 +1,26 @@
 from app import app
 from flask import render_template,request,redirect,url_for
-from app.models import Todo,Student
+from app.models import Todo,Student,TodoForm,StudentForm
 import datetime
 
 @app.route('/')
 def index():
+	form = TodoForm()
 	todos = Todo.objects.all()
-	return render_template("index.html",todos=todos)
+	return render_template("index.html",todos=todos,forms=form)
 
 @app.route('/add',methods=['POST',])
 def add():
-	content = request.form.get("content")
-	errormsg = None
-	if content == "":
-		errormsg="please input content!"
-	else:
+	form = TodoForm(request.form)
+	if form.validate():
+		content = form.content.data
 		todo = Todo(content=content)
 		todo.save()
-	return redirect(url_for('index'))
+		return redirect(url_for("index",forms=form))
+	else:
+		todos = Todo.objects.all()
+		return render_template("index.html",todos=todos, forms=form)
+	
 
 @app.route('/done/<string:todo_id>')
 def done(todo_id):
