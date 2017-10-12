@@ -3,10 +3,14 @@ from flask import render_template,request,redirect,url_for
 from app.models import Todo,Student,TodoForm,StudentForm
 import datetime
 
+@app.errorhandler(404)
+def not_found(e):
+	return render_template('404.html'), 404
+
 @app.route('/')
 def index():
 	form = TodoForm()
-	todos = Todo.objects.all()
+	todos = Todo.objects.order_by('content')
 	return render_template("index.html",todos=todos,forms=form)
 
 @app.route('/add',methods=['POST',])

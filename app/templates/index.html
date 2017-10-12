@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Flask Todo</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="./static/index.css">
-	<!-- <link rel="stylesheet" type="text/css" href="./static/bootstrap.css"> -->
-	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">  
-</head>
-<body>
-	<form class="input-group" action="/add" method="post">
+{% extends "base.html" %}
+{% block content %}
+<form class="input-group" action="/add" method="post">
 		{{ forms.hidden_tag() }}
 		{{ forms.content(class="form-control") }}
 		<span class="input-group-btn">
@@ -17,9 +9,11 @@
 	</form>
 
 	{% for error in forms.errors.content %}
-		<div class="flash alert-danger"><span>{{ error }}</span></div>
+	<div class="flash alert-danger"><span>{{ error }}</span></div>
 	{% endfor %}
+	<h2>Todo List</h2>
 
+	{% if todos %}
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -31,21 +25,30 @@
 
 		<tbody>
 			{% for t in todos %}
-			<tr>
-				<td>{{ t.content }}</td>
-				<td>{{ t.time }}</td>
-				<td>
-					{% if t.status == 0 %}
-         				<a href="/done/{{ t.id }}" class="btn btn-primary">Done</a>
-        			{% else %}
-         				<a href="/undone/{{ t.id }}" class="btn btn-primary">Undone</a>
-        			{% endif %}
-        			<a href="/delete/{{ t.id }}" class="btn btn-danger">Delete</a>
-        		</td>
-			</tr>
+				{% if t.status == 0 %}
+					<tr class="info">
+						<td>{{ t.content }}</td>
+						<td>{{ t.time.strftime('%d-%m-%y %H:%M:%S') }}</td>
+						<td>
+							<a href="/done/{{ t.id }}" class="btn btn-primary">Done</a>
+							<a href="/delete/{{ t.id }}" class="btn btn-danger">Delete</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr class="danger">
+						<td id="center">{{ t.content }}</td>
+						<td>{{ t.time.strftime('%d-%m-%y %H:%M:%S') }}</td>
+						<td>
+							<a href="/undone/{{ t.id }}" class="btn btn-primary">Undone</a>
+							<a href="/delete/{{ t.id }}" class="btn btn-danger">Delete</a>
+						</td>
+					</tr>
+				{% endif %}
 			{% endfor %}
 		</tbody>
 	</table>
-</body>
-</html>
+	{% else %}
+	<h3 class="text-info">No todos, please add</h3>
+	{% endif %}
+{% endblock %}
 

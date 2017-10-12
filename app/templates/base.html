@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Flask Todo</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="./static/index.css">
+	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1>awesome-flask-todo</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-10">
+           {% block content %}
+           {% endblock %}
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <p class="text-muted">Copyright © defshine 2015</p>
+    </div>
+</footer>
+</body>
+</html>
